@@ -1,0 +1,73 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+      <div class="col-md-8">
+          
+    {% for post in posts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <div class="row">
+                <div class="col-md-6">
+                  <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <div class="col-md-6 text-right">
+                  <small class="text-muted ml-3">{% if post.comment_set.count > 0 %}Commenti {{ post.comment_set.count }}{% endif %}</small>
+                </div>
+              </div>
+            </div>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content">{% if post.content|length > 200 %}{{ post.content|slice:":200" }}...{% else %}{{ post.content }}
+              {% endif %}
+            </p>
+          </div>
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1&content={% if request.GET.content %}{{request.GET.content}}{% endif %}">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}&content={% if request.GET.content %}{{request.GET.content}}{% endif %}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}&content={% if request.GET.content %}{{request.GET.content}}{% endif %}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}&content={% if request.GET.content %}{{request.GET.content}}{% endif %}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}&content={% if request.GET.content %}{{request.GET.content}}{% endif %}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}&content={% if request.GET.content %}{{request.GET.content}}{% endif %}">Last</a>
+      {% endif %}
+
+    {% endif %}
+    </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Filters</h3>
+            <form method="GET" >
+              {% csrf_token %}
+              {{ form }}
+
+              {% if form.errors %}
+                {% for field in form %}
+
+                     {% for error in field.errors %}
+                         <div class="alert alert-info"> {{field.label}}: {{ error|escape }} </div>
+                     {% endfor %}
+
+                {% endfor %}
+              {% endif %}
+
+              <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+{% endblock content %}
