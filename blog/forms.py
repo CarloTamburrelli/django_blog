@@ -9,8 +9,17 @@ class CommentForm(forms.Form):
 
 class SearchPosts(forms.Form):
 	content = forms.CharField(strip=True, label='', widget=forms.TextInput(attrs={'placeholder': 'Search'}))
+	search_by_user = forms.ModelChoiceField(queryset=User.objects.all())
 	def __init__(self, *args, **kwargs):
 		super(SearchPosts, self).__init__(*args, **kwargs)
 		self.fields['content'].required = False
 		self.fields['content'].widget.attrs.update({'class': 'form-control mb-4'})
+		self.fields['search_by_user'].required = False
+		self.fields['search_by_user'].widget.attrs.update({'class': 'form-control mb-4'})
+
+
+	@staticmethod
+	def label_from_instance(obj):
+		return "My Field name %s" % obj.username
+
 

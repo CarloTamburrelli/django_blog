@@ -25,8 +25,11 @@ class PostListView(ListView):
 	paginate_by = 5
 
 	def get_queryset(self):
-		filter_val = self.request.GET.get('content', '')
-		new_context = Post.objects.filter(Q(title__icontains=filter_val) | Q(content__icontains=filter_val)).order_by('-date_posted')
+		filter_content = self.request.GET.get('content', '')
+		filter_user = self.request.GET.get('search_by_user', None)
+		new_context = Post.objects.filter(Q(title__icontains=filter_content) | Q(content__icontains=filter_content)).order_by('-date_posted')
+		if (filter_user):
+			new_context = new_context.filter(author = filter_user)
 		return new_context
 		 
 	def get_context_data(self, **kwargs):
