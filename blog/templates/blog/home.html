@@ -34,15 +34,15 @@
 
       {% for num in page_obj.paginator.page_range %}
         {% if page_obj.number == num %}
-          <a class="btn btn-info mb-4" href="?page={{ num }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}">{{ num }}</a>
+          <a class="btn btn-info mb-4" href="?page={{ num }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}{% if request.GET.post_with_comments %}&post_with_comments={{request.GET.post_with_comments}}{% endif %}">{{ num }}</a>
         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <a class="btn btn-outline-info mb-4" href="?page={{ num }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}">{{ num }}</a>
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}{% if request.GET.post_with_comments %}&post_with_comments={{request.GET.post_with_comments}}{% endif %}">{{ num }}</a>
         {% endif %}
       {% endfor %}
 
       {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}">Next</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}">Last</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}{% if request.GET.post_with_comments %}&post_with_comments={{request.GET.post_with_comments}}{% endif %}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.content %}&content={{request.GET.content}}{% endif %}{% if request.GET.search_by_user %}&search_by_user={{request.GET.search_by_user}}{% endif %}{% if request.GET.post_with_comments %}&post_with_comments={{request.GET.post_with_comments}}{% endif %}">Last</a>
       {% endif %}
 
     {% endif %}

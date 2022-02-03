@@ -6,7 +6,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from .forms import CommentForm, SearchPosts
-from django.db.models import Q
+from django.db.models import Q, Count
 import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -27,9 +27,13 @@ class PostListView(ListView):
 	def get_queryset(self):
 		filter_content = self.request.GET.get('content', '')
 		filter_user = self.request.GET.get('search_by_user', None)
+		only_with_comments = self.request.GET.get('post_with_comments', False)
 		new_context = Post.objects.filter(Q(title__icontains=filter_content) | Q(content__icontains=filter_content)).order_by('-date_posted')
 		if (filter_user):
 			new_context = new_context.filter(author = filter_user)
+		if (only_with_comments):
+			new_context = new_context.annotate(comment_count=Count('comment')).filter(comment_count__gt=0)
+
 		return new_context
 		 
 	def get_context_data(self, **kwargs):
