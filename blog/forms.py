@@ -18,8 +18,3 @@ class SearchPosts(forms.Form):
 		self.fields['search_by_user'].widget.attrs.update({'class': 'form-control mb-4'})
 
 
-	@staticmethod
-	def label_from_instance(obj):
-		return "My Field name %s" % obj.username
-
-
