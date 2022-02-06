@@ -1,0 +1,36 @@
+body {
+  background: black;
+  color: white;
+  margin-top: 5rem;
+}
+
+.content-section {
+	background: #484848;
+}
+
+.article-title, h3, h2, h1 {
+	color:  white;
+}
+
+.bg-steel {
+    background-color: #D58225;
+}
+
+.btn-outline-info {
+	color: #D58225;
+    border-color: #D58225;
+}
+
+.content-section {
+    border: 1px solid #d58225;
+}
+
+.btn-info{
+    background-color: #d58225;
+    border-color: #d58225;
+}
+
+.btn-outline-info:hover{
+    background-color: #d58225;
+    border-color: #d58225;
+}

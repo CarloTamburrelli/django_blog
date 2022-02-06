@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+
+    {% if request.COOKIES.theme != 'white' %}
+      <link rel="stylesheet" type="text/css" href="{% static 'blog/dark.css' %}">
+    {% endif %}
+
 
     {% if title %}
         <title>ZiZi! Blog - {{ title }}</title>
@@ -29,7 +36,11 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+              <span class="nav-item nav-link">
+                
+                <input type="checkbox" {% if request.COOKIES.theme == "white" %}checked{% endif %} id="change_theme" data-onstyle="dark" data-toggle="toggle" data-on="Change theme" data-off="Change theme" data-size="xs">
+
+              </span>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -59,9 +70,17 @@
         </div>
       </div>
     </main>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="{% static 'blog/js/jquery.min.js' %}"></script>
+      <script type="text/javascript">
+        $('#change_theme').change(function() {
+          let theme = $(this).prop('checked') ? 'white' : 'dark'
+          let redirect_page = window.location.pathname+window.location.search
+          window.location.href = "/set-theme/"+theme+"?redirect_page="+redirect_page;
+        })
+      </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
 </body>
 </html>

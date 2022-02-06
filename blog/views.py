@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from .forms import CommentForm, SearchPosts
 from django.db.models import Q, Count
+from django.http import JsonResponse
 import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -104,6 +105,19 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 		if self.request.user == post.author:
 			return True
 		return False
+
+
+def setTheme(request, theme_type):
+	max_age = 365 * 24 * 60 * 60  # one year
+	redirect_page = request.GET.get('redirect_page',None)
+	print("redirect...........",redirect_page)
+	if (not redirect_page):
+		link = redirect('blog-home')
+	else:
+		link = redirect(redirect_page)
+	link.set_cookie("theme", theme_type, max_age = max_age)
+	return link
+
 
 def about(request):
 	return render(request, 'blog/about.html', { 'title' : 'About'})
