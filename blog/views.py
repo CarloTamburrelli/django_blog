@@ -116,9 +116,3 @@ def setTheme(request, theme_type):
 		link = redirect(redirect_page)
 	link.set_cookie("theme", theme_type, max_age = max_age)
 	return link
-
-
-def about(request):
-	return render(request, 'blog/about.html', { 'title' : 'About'})
-
-#@login_required(login_url="login")
