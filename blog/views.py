@@ -110,7 +110,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def setTheme(request, theme_type):
 	max_age = 365 * 24 * 60 * 60  # one year
 	redirect_page = request.GET.get('redirect_page',None)
-	print("redirect...........",redirect_page)
 	if (not redirect_page):
 		link = redirect('blog-home')
 	else:
